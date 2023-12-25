@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,16 +56,27 @@ fun MainScreen() {
         mutableIntStateOf(1)
     }
 
+    val imageRes = when (roll) {
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
+    }
+
     Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text(
-            modifier = Modifier.padding(bottom = 50.dp),
-            fontSize = 36.sp,
-            text = "$roll"
+        Image(
+            painter = painterResource(imageRes),
+            contentDescription = roll.toString()
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
             roll = rollDice(context)
@@ -75,7 +90,7 @@ fun MainScreen() {
 }
 
 fun rollDice(context: Context): Int {
-    Toast.makeText(context, "Dice Rolled", Toast.LENGTH_SHORT).show()
+    Toast.makeText(context, "Dice is rolled", Toast.LENGTH_SHORT).show()
 
     return (0..6).random()
 }
