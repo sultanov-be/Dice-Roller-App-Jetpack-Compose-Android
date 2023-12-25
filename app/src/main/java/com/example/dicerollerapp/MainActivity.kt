@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -48,40 +48,36 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     val context = LocalContext.current
 
-    var dice by remember {
+    var roll by remember {
         mutableIntStateOf(1)
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Text(
+            modifier = Modifier.padding(bottom = 50.dp),
+            fontSize = 36.sp,
+            text = "$roll"
+        )
 
+        Button(onClick = {
+            roll = rollDice(context)
+        }) {
             Text(
-                modifier = Modifier.padding(bottom = 50.dp),
-                fontSize = 36.sp,
-                text = "$dice"
+                fontSize = 24.sp,
+                text = stringResource(id = R.string.roll).uppercase()
             )
-
-            Button(onClick = {
-                showToast(context)
-                dice = (1..6).random()
-            }) {
-                Text(
-                    fontSize = 24.sp,
-                    text = stringResource(id = R.string.roll).uppercase()
-                )
-            }
         }
     }
 }
 
-fun showToast(context: Context) {
+fun rollDice(context: Context): Int {
     Toast.makeText(context, "Dice Rolled", Toast.LENGTH_SHORT).show()
+
+    return (0..6).random()
 }
 
 @Preview(showBackground = true)
